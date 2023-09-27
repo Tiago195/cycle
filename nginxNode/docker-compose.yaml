@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  db:
+    image: mysql
+    container_name: cycle-mysql
+    networks:
+      - cycle
+    restart: always
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=tutu
+
+  node:
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    restart: always
+    container_name: cycle-node
+    networks:
+      - cycle
+    depends_on:
+      - db
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: cycle-nginx
+    restart: always
+    networks:
+      - cycle
+    ports:
+      - "8080:80"
+    depends_on:
+      - node
+      - db
+
+networks:
+  cycle:
+    driver: bridge
