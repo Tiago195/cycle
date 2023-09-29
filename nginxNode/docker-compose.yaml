@@ -16,6 +16,7 @@ services:
       context: ./node
       dockerfile: Dockerfile
     restart: always
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 30s npm start
     container_name: cycle-node
     networks:
       - cycle
@@ -26,8 +27,8 @@ services:
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    container_name: cycle-nginx
     restart: always
+    container_name: cycle-nginx
     networks:
       - cycle
     ports:

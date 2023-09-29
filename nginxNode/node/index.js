@@ -11,7 +11,7 @@ const connection = mysql.createPool({
 
 (async () => {
   await connection.query(`
-    CREATE TABLE
+    CREATE TABLE IF NOT EXISTS
       people (
         id int unsigned NOT NULL AUTO_INCREMENT,
         name varchar(255) NOT NULL,
