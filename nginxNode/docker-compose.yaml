@@ -16,8 +16,11 @@ services:
       context: ./node
       dockerfile: Dockerfile
     restart: always
+    tty: true
     entrypoint: dockerize -wait tcp://db:3306 -timeout 30s npm start
     container_name: cycle-node
+    volumes:
+      - ./node:/src/app
     networks:
       - cycle
     depends_on:
